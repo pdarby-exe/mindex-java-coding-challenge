@@ -14,11 +14,11 @@ public class Compensation {
 
     }
 
-    public String getEmployee() {
+    public String getempID() {
         return empID;
     }
 
-    public void setEmployee(String empID) {
+    public void setEempID(String empID) {
         this.empID = empID;
     }
 

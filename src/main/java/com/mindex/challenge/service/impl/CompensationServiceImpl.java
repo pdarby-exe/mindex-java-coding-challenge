@@ -23,7 +23,7 @@ public class CompensationServiceImpl implements CompensationService {
         LOG.debug("Creating Compensation [{}]", compensation);
 
         compensation.setDate(LocalDate.now());
-        //compensationRepository.insert(compensation);
+        compensationRepository.insert(compensation);
 
         return compensation;
     }
@@ -32,7 +32,7 @@ public class CompensationServiceImpl implements CompensationService {
     public Compensation read(String empID){
         LOG.debug("Creating Compensation with id [{}]", empID);
 
-        Compensation compensation = null;//compensationRepository.findByEmployeeId(empID);
+        Compensation compensation = compensationRepository.findByEmpID(empID);
 
         if (compensation == null) {
             throw new RuntimeException("Invalid employeeId: " + empID);
