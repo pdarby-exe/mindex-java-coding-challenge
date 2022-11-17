@@ -28,8 +28,8 @@ public class ReportingStructureImpl implements ReportingStructureService {
         ReportingStructure reportingStructure = new ReportingStructure();
         reportingStructure.setEmployee(emp);
 
-        List<Employee> rep1 = emp.getDirectReports();
-        List<Employee> tempList;
+        List<Employee> initRep = emp.getDirectReports();
+        List<Employee> tempRep;
 
         int count = 0;
         String structure = "";
@@ -39,42 +39,46 @@ public class ReportingStructureImpl implements ReportingStructureService {
         if(emp.getDirectReports() != null){
 
             //Start of outer loop
-            for(int i = 0; i < rep1.size(); i++){
+            for(int i = 0; i < initRep.size(); i++){
                 count++;
 
-                temp = employeeService.read(rep1.get(i).getEmployeeId());
-                tempList = temp.getDirectReports();
+                temp = employeeService.read(initRep.get(i).getEmployeeId());
+                tempRep = temp.getDirectReports();
 
-
+                //Opening parenthesis
                 if (i == 0)
                     structure = structure.concat("(");
 
                 structure = structure.concat(" " + temp.getFirstName() + " " + temp.getLastName());
 
-                if ((rep1.size() > 0 & i != rep1.size() - 1))
+
+                if ((initRep.size() > 0 & i != initRep.size() - 1))
                     structure = structure.concat(",");
 
                 //Check if the subordinate has subordinates
                 if(temp.getDirectReports() != null){
 
-                    for(int j = 0; j < tempList.size(); j++){
+                    for(int j = 0; j < tempRep.size(); j++){
                         count++;
 
+                        //Opening parenthesis
                         if (j == 0)
                             structure = structure.concat("(");
 
-                        temp = employeeService.read(tempList.get(j).getEmployeeId());
+                        temp = employeeService.read(tempRep.get(j).getEmployeeId());
                         structure = structure.concat(" " + temp.getFirstName() + " " + temp.getLastName());
 
-                        if ((tempList.size() > 0 & j != tempList.size() - 1))
+                        if ((tempRep.size() > 0 & j != tempRep.size() - 1))
                             structure = structure.concat(",");
 
-                        if (j == tempList.size() - 1)
+                        //Closing parenthesis
+                        if (j == tempRep.size() - 1)
                             structure = structure.concat(" ) ");
                     }
                 }
 
-                if (i == rep1.size() - 1)
+                //Closing parenthesis
+                if (i == initRep.size() - 1)
                     structure = structure.concat(")");
 
             }
